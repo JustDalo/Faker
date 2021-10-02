@@ -4,14 +4,14 @@ namespace Faker.ValueGenerator.PrimitiveTypes.IntegerTypes
 {
     public class IntegerGenerator : IPrimitiveTypeGenerator
     {
-        private static readonly Random R = new Random();
+        private static readonly Random Random = new Random();
 
         public Type GenerateType { get; set; }
 
         public object Generate()
         {
-            var num = (int) Math.Round(R.NextDouble());
-            return num;
+            GenerateType = typeof(int);
+            return Random.Next();
         }
     }
 }
