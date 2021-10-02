@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Linq;
+using System.Reflection;
 using Faker.ValueGenerator;
 using Faker.ValueGenerator.PrimitiveTypes;
 using Faker.ValueGenerator.PrimitiveTypes.LogicalType;
@@ -10,9 +12,10 @@ namespace Faker
     public class Faker
     {
         private Dictionary<Type, IPrimitiveTypeGenerator> _primitiveTypeGenerators;
-        
+        private List<Type> SystemTypes;
         public Faker()
         {
+            SystemTypes = typeof(Assembly).Assembly.GetExportedTypes().ToList();
             _primitiveTypeGenerators = new Dictionary<Type, IPrimitiveTypeGenerator>()
             {
                 {typeof(Boolean), new BooleanGenerator()},
@@ -33,6 +36,14 @@ namespace Faker
             {
                 generatedType = primitiveTypeGenerator.Generate();
             }
+            else if (objectType.IsClass)
+            {
+                foreach (var constructor in objectType.GetConstructors())
+                {
+                    
+                }
+                
+            } 
             else
             {
                 generatedType = null;

@@ -5,8 +5,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="ValueGenerator\PrimitiveTypes\FloatTypes" />
-      <Folder Include="ValueGenerator\PrimitiveTypes\IntegerTypes" />
       <Folder Include="ValueGenerator\ReferenceTypes\StringType" />
     </ItemGroup>
 

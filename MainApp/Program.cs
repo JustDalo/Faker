@@ -15,12 +15,13 @@ namespace MainApp
 
     public class Foo
     {
+        private Boolean isFalse;
         public Foo()
         {
             
         }
 
-        private Boolean isFalse;
+        
     } 
     
 }
