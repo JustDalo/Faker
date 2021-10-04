@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 
 namespace MainApp
@@ -9,19 +10,22 @@ namespace MainApp
         {
             var faker = new Faker.Faker();
             Foo foo = faker.Create<Foo>();
-           // var bar = faker.Create<Bar>();
+            List<string> stringList = faker.Create<List<string>>();
+            // var bar = faker.Create<Bar>();
+            Console.WriteLine(foo.ToString());
         }
     }
 
     public class Foo
     {
-        private Boolean isFalse;
-        public Foo()
-        {
-            
-        }
+        public bool isFalse;
+        public string name;
 
-        
+        public int age;
+        public Foo(bool isFalse)
+        {
+            this.isFalse = isFalse;
+        }
     } 
     
 }

@@ -13,6 +13,11 @@ namespace Faker.ValueGenerator.ReferenceTypes.GenericType
 
         public Type GenerateType { get; set; }
 
+        public ListGenerator(IDictionary<Type, IPrimitiveTypeGenerator> baseTypesGenerators)
+        {
+            this.baseTypesGenerators = baseTypesGenerators;
+        }
+
         public object Generate(Type baseType)
         {
             IList result = (IList) Activator.CreateInstance(typeof(List<>).MakeGenericType(baseType));
