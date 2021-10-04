@@ -19,13 +19,22 @@ namespace MainApp
     public class Foo
     {
         public bool isFalse;
-        public string name;
+        public string name1;
+        private string name2;
+        private Bar bar;
 
         public int age;
-        public Foo(bool isFalse)
+        public Foo(bool isFalse, string name, Bar bar)
         {
             this.isFalse = isFalse;
+            this.name2 = name;
+            this.bar = bar;
         }
-    } 
+    }
+
+    public class Bar
+    {
+        public int age;
+    }
     
 }

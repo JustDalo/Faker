@@ -17,8 +17,10 @@ namespace Faker
     {
         private Dictionary<Type, IPrimitiveTypeGenerator> _primitiveTypeGenerators;
         private Dictionary<Type, IGenericTypeGenerator> _genericTypeGenerators;
+        private Stack<Type> createdTypes;
         public Faker()
         {
+            createdTypes = new Stack<Type>();
             //SystemTypes = typeof(Assembly).Assembly.GetExportedTypes().ToList();
             _primitiveTypeGenerators = new Dictionary<Type, IPrimitiveTypeGenerator>()
             {
@@ -69,15 +71,9 @@ namespace Faker
                         constructorToUse = constructor;
                     }
                 }
-
-                if (constructorToUse == null)
-                {
-                    generatedType = CreateByProperties(objectType);
-                }
-                else
-                {
-                    generatedType = CreateByConstructor(objectType, constructorToUse);
-                }
+                createdTypes.Push(objectType);
+                generatedType = CreateByConstructorAndParams(objectType, constructorToUse);
+                createdTypes.Pop();
             }
             else
             {
@@ -85,39 +81,32 @@ namespace Faker
             }
             return generatedType;
         }
-
-        private object CreateByProperties(Type objectType)
+        private object CreateByConstructorAndParams(Type objectType, ConstructorInfo constructor)
         {
-            object generated = Activator.CreateInstance(objectType);
-            foreach (FieldInfo fieldInfo in objectType.GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public))
-            {   
-                Console.WriteLine(fieldInfo);
-                object value = Create(fieldInfo.FieldType);
-                fieldInfo.SetValue(generated, value);
-            }
-
-            return generated;
-        }
-
-        private object CreateByConstructor(Type objectType, ConstructorInfo constructor)
-        {
-            var parametersValues = new List<object>();
+            var constructorValues = new List<object>();
             object value;
-            foreach (var parameterInfo in constructor.GetParameters())
-            {
-                value = Create(parameterInfo.ParameterType);
-                parametersValues.Add(value);
-            }
+            object generated = null;
 
-            try
+            if (constructor != null)
             {
-                return constructor.Invoke(parametersValues.ToArray());
+                foreach (var parameterInfo in constructor.GetParameters())
+                {
+                    value = Create(parameterInfo.ParameterType);
+                    constructorValues.Add(value);
+                }
+                
+                generated = (object) Activator.CreateInstance(constructor.ReflectedType, constructorValues.ToArray());
             }
-            catch (Exception e)
-            {   
-                Console.Write("Error");
-                return null;
+            else
+            {
+                generated = Activator.CreateInstance(objectType);
             }
+            foreach (FieldInfo fieldInfo in objectType.GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public))
+            {
+                object propertyValue = Create(fieldInfo.FieldType);
+                fieldInfo.SetValue(generated, propertyValue);
+            }
+            return generated;
         }
     }
 }
