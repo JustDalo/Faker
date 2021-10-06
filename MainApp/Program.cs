@@ -9,9 +9,7 @@ namespace MainApp
         static void Main(string[] args)
         {
             var faker = new Faker.Faker();
-          //  int l = faker.Create<int>();
-            DateTime time = faker.Create<DateTime>();
-            //Foo foo = faker.Create<Foo>();
+            Foo foo = faker.Create<Foo>();
             Console.ReadLine();
         }
     }
@@ -19,29 +17,28 @@ namespace MainApp
     public class Foo
     {
         public DateTime datetime;
+        
         public bool isFalse;
         public string name1;
         private string name2;
         private Bar bar;
         private List<int> gjfj;
-
-        
-       // public DateTime _dateTime;
-
         public int age;
 
-        // public Foo(bool isFalse, string name, Bar bar)
-        // {
-        //     this.isFalse = isFalse;
-        //     this.name2 = name;
-        //     this.bar = bar;
-        // }
+        public Foo(bool isFalse, string name, Bar bar)
+        {
+            this.isFalse = isFalse;
+            this.name2 = name;
+            this.bar = bar;
+        }
 
         public class Bar
         {
+            public char symbol;
             public int age;
            // public Foo foo;
         }
     }
+    
 
 }

@@ -1,6 +1,7 @@
 using System;
+using Faker.ValueGenerator.PrimitiveTypes;
 
-namespace Faker.ValueGenerator.PrimitiveTypes.CharType
+namespace CharGenerator
 {
     public class CharGenerator : IPrimitiveTypeGenerator
     {

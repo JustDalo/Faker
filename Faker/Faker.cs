@@ -6,7 +6,6 @@ using System.Linq;
 using System.Reflection;
 using Faker.ValueGenerator;
 using Faker.ValueGenerator.PrimitiveTypes;
-using Faker.ValueGenerator.PrimitiveTypes.CharType;
 using Faker.ValueGenerator.PrimitiveTypes.IntegerTypes;
 using Faker.ValueGenerator.PrimitiveTypes.LogicalType;
 using Faker.ValueGenerator.ReferenceTypes.GenericType;
@@ -34,7 +33,7 @@ namespace Faker
                 {typeof(uint), new UIntegerGenerator()},
                 {typeof(ulong), new ULongGenerator()},
                 {typeof(ushort), new UShortGenerator()},
-                {typeof(char), new CharGenerator()},
+                {typeof(char), LoadPlugin(@"C:\Users\ASUS\RiderProjects\MPPproject2\CharGenerator\bin\Debug\net5.0\CharGenerator.dll", typeof(char))},
                 {typeof(string), new StringGenerator()},
                 {typeof(DateTime), LoadPlugin(@"C:\Users\ASUS\RiderProjects\MPPproject2\DataTimeGenerator\bin\Debug\net5.0\DataTimeGenerator.dll", typeof(DateTime))}
             };
