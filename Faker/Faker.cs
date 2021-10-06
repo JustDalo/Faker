@@ -21,7 +21,6 @@ namespace Faker
         public Faker()
         {
             createdTypes = new Stack<Type>();
-            //SystemTypes = typeof(Assembly).Assembly.GetExportedTypes().ToList();
             _primitiveTypeGenerators = new Dictionary<Type, IPrimitiveTypeGenerator>()
             {
                 {typeof(bool), new BooleanGenerator()},
@@ -49,7 +48,7 @@ namespace Faker
 
         private object Create(Type objectType)
         {
-            object generatedType = new object();
+            object generatedType = null;
             if (_primitiveTypeGenerators.TryGetValue(objectType, out IPrimitiveTypeGenerator primitiveTypeGenerator))
             {
                 generatedType = primitiveTypeGenerator.Generate();
@@ -69,19 +68,29 @@ namespace Faker
                     {
                         maxConstructorFieldsCount = curConstructorFieldsCount;
                         constructorToUse = constructor;
+                        
                     }
                 }
-                createdTypes.Push(objectType);
-                generatedType = CreateByConstructorAndParams(objectType, constructorToUse);
-                createdTypes.Pop();
+                
+                if (!createdTypes.Contains(objectType))
+                {
+                    createdTypes.Push(objectType);
+                    generatedType = CreateByConstructorAndProps(objectType, constructorToUse);
+                    createdTypes.Pop();
+                }
+                else
+                {
+                    throw new Exception("A cyclical relationship was found");
+                }
             }
             else
             {
+                throw new Exception("Can't create " + objectType + " ");
                 generatedType = null;
             }
             return generatedType;
         }
-        private object CreateByConstructorAndParams(Type objectType, ConstructorInfo constructor)
+        private object CreateByConstructorAndProps(Type objectType, ConstructorInfo constructor)
         {
             var constructorValues = new List<object>();
             object value;
@@ -101,7 +110,7 @@ namespace Faker
             {
                 generated = Activator.CreateInstance(objectType);
             }
-            foreach (FieldInfo fieldInfo in objectType.GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public))
+            foreach (FieldInfo fieldInfo in objectType.GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
             {
                 object propertyValue = Create(fieldInfo.FieldType);
                 fieldInfo.SetValue(generated, propertyValue);
