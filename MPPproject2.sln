@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainApp", "MainApp\MainApp.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Faker", "Faker\Faker.csproj", "{42B1CD71-33D8-4628-B176-CC9AA012CC0E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTimeGenerator", "DataTimeGenerator\DataTimeGenerator.csproj", "{567148AC-2C83-46B9-AC32-EB31B66F2367}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{42B1CD71-33D8-4628-B176-CC9AA012CC0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42B1CD71-33D8-4628-B176-CC9AA012CC0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42B1CD71-33D8-4628-B176-CC9AA012CC0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{567148AC-2C83-46B9-AC32-EB31B66F2367}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{567148AC-2C83-46B9-AC32-EB31B66F2367}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{567148AC-2C83-46B9-AC32-EB31B66F2367}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{567148AC-2C83-46B9-AC32-EB31B66F2367}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using Faker.ValueGenerator;
@@ -17,6 +18,8 @@ namespace Faker
     {
         private Dictionary<Type, IPrimitiveTypeGenerator> _primitiveTypeGenerators;
         private Dictionary<Type, IGenericTypeGenerator> _genericTypeGenerators;
+        public Dictionary<PropertyInfo, IPrimitiveTypeGenerator> customGenerators;
+        
         private Stack<Type> createdTypes;
         public Faker()
         {
@@ -33,11 +36,13 @@ namespace Faker
                 {typeof(ushort), new UShortGenerator()},
                 {typeof(char), new CharGenerator()},
                 {typeof(string), new StringGenerator()},
+                {typeof(DateTime), LoadPlugin(@"C:\Users\ASUS\RiderProjects\MPPproject2\DataTimeGenerator\bin\Debug\net5.0\DataTimeGenerator.dll", typeof(DateTime))}
             };
             _genericTypeGenerators = new Dictionary<Type, IGenericTypeGenerator>()
             {
                 {typeof(List<>), new ListGenerator(_primitiveTypeGenerators)}
             };
+            
         }
         
         public T Create<T>()
@@ -116,6 +121,19 @@ namespace Faker
                 fieldInfo.SetValue(generated, propertyValue);
             }
             return generated;
+        }
+        
+        private IPrimitiveTypeGenerator LoadPlugin(string path, Type generatorType)
+        {
+            Assembly assembly = Assembly.LoadFrom(path);
+            var types = assembly.GetTypes();
+            foreach (var type in types)
+            { 
+                var inst = (IPrimitiveTypeGenerator)Activator.CreateInstance(type);
+                return inst;
+               
+            }
+            return null;
         }
     }
 }
