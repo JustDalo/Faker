@@ -84,12 +84,11 @@ namespace Faker
                 }
                 else
                 {
-                    throw new Exception("A cyclical relationship was found");
+                    CycleException();
                 }
             }
             else
             {
-                throw new Exception("Can't create " + objectType + " ");
                 generatedType = null;
             }
             return generatedType;
@@ -133,6 +132,11 @@ namespace Faker
                
             }
             return null;
+        }
+
+        private void CycleException()
+        {
+            throw new Exception("A cyclical relationship was found");
         }
     }
 }

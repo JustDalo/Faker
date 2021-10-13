@@ -18,12 +18,13 @@ namespace MainApp
     {
         public DateTime datetime;
         
-        public bool isFalse;
+        private bool isFalse;
         public string name1;
         private string name2;
         private Bar bar;
         private List<int> gjfj;
         public int age;
+        public IEnumerable<int> enumList;
 
         public Foo(bool isFalse, string name, Bar bar)
         {
@@ -31,13 +32,13 @@ namespace MainApp
             this.name2 = name;
             this.bar = bar;
         }
-
-        public class Bar
-        {
-            public char symbol;
-            public int age;
-           // public Foo foo;
-        }
+    }
+    
+    public class Bar
+    {
+        public char symbol;
+        public int age;
+        //public Foo foo;
     }
     
 
